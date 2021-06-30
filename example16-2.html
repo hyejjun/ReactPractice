@@ -57,7 +57,7 @@
             logout = (e) => {
                 return (
                     <>
-                        <li>로그아웃</li>
+                        <li onClick={this.props.onDelete}>로그아웃</li>
                         <li>회원정보</li>
                     </>
                 )
@@ -117,7 +117,16 @@
 
             loginInfo = (data) =>{
                 // console.log(data);
-                data.userid&&data.userpw == "admin" ? this.setState({isLogin:true}) : this.setState({isLogin:false})
+                // 리액트는 === 을 세개를 쓰라고 권장
+                //data.userid&&data.userpw === "admin" ? this.setState({isLogin:true}) : this.setState({isLogin:false})
+                let {userid,userpw} = data
+                if(userid&&userpw === "admin"){
+                    this.setState({isLogin:true})
+                }
+            }
+
+            handelDelete = () =>{
+                this.setState({isLogin:false})
             }
 
             render() {
@@ -126,9 +135,9 @@
                         <Header>
                             <Logo />
                             <Menu />
-                            <Utill isLogin={this.state.isLogin} />
+                            <Utill isLogin={this.state.isLogin} onDelete={this.handelDelete}/>
                         </Header>
-                        <LoginBox onCreate={this.loginInfo} />
+                        {this.state.isLogin ? '' : <LoginBox onCreate={this.loginInfo} /> }
                     </>
                 )
             }
@@ -142,3 +151,8 @@
 </body>
 
 </html>
+
+<!--
+
+    로그인하면 입력칸없어지고 로그아웃 버튼 누르면 로그아웃 되면서 다시 입력칸 생기는거 이벤트 주기
+-->
