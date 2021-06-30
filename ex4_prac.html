@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        class GuguList extends React.Component {
+            guguFunc(n){
+                let g = parseInt(n);
+                let arr = Array(9).fill(null)
+
+                return(
+                    arr.map((v,k)=>{
+                        return <li key={k}> {g}*{k+1} = {g*(k+1)}</li>
+                    })
+                )
+            }
+            render() {
+                return (
+                    <>
+                        <li>{this.props.num} 단 입니다.</li>
+                        {this.guguFunc(this.props.num)}
+                    </>
+                )
+            }
+        }
+
+        class GuguForm extends React.Component {
+            render() {
+                return (
+                    <>
+                        <li>
+                            <h2>몇 단을 구할까요?</h2>
+                            <form onSubmit={this.props.onSubmit}>
+                                <input type="number" name="num" placeholder="숫자를 입력해주세요" />
+                                <input type="submit" value="곱하기" />
+                            </form>
+                        </li>
+                        {this.props.isSubmit ? <GuguList num={this.props.num} /> : '몇단을 구해볼까요'}
+                    </>
+                )
+            }
+        }
+        class App extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    isSubmit: false,
+                }
+            }
+            onSubmit = (e) => {
+                e.preventDefault();
+                this.setState({
+                    isSubmit: true,
+                    gugu: e.target.num.value
+                })
+            }
+            render() {
+                return (
+                    <ul>
+                        <GuguForm
+                            isSubmit={this.state.isSubmit}
+                            onSubmit={this.onSubmit}
+                            num={this.state.gugu}
+                        />
+                    </ul>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.querySelector('#root')
+        )
+    </script>
+
+</body>
+
+</html>

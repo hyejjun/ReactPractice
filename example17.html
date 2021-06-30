@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="./example6.css">
+    <title>...</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        // 상태값을 App에서 갖는게 아니라 로그인 박스에서 상태값을 갖고 그걸 App에 전달해준다.
+
+        class LoginBox extends React.Component {
+            // super 어쩌구는 babel에 의해서 생략 가능함
+            state = {
+                userid: '',
+                userpw: '',
+            }
+
+            handleChange = (e) =>{
+                // e.target => userid
+                // e.target => userpw
+                // e.target 각각의 input값을 가리키고 거기의 name값을 가져와라 - 가변적으로 사용가능 - js 구문임
+                this.setState({[e.target.name]: e.target.value})
+            }
+
+            handleSubmit = (e) =>{
+                e.preventDefault()
+                this.props.onCreate(this.state)    // 내가 입력한 값을 저 함수로 넘겨줌 (하위에서 상위로 값을 넘겨줌)
+                this.setState({userid:'', userpw:''})
+            }
+
+            render() {
+                return (
+                    <form onSubmit = {this.handleSubmit}>
+                        <input
+                            type="text"
+                            placeholder="아이디 입력해주세요"
+                            value={this.state.userid}
+                            onChange={this.handleChange}
+                            name="userid"
+                        />
+                        <input
+                            type="password"
+                            placeholder="비번 입력해주세요"
+                            value={this.state.userpw}
+                            onChange={this.handleChange}
+                            name="userpw"
+                        />
+                        <button type="submit">로그인</button>
+                    </form>
+                )
+            }
+        }
+
+        class App extends React.Component {
+
+            loginInfo = (data) =>{  // 하위(LoginBox)의 값을 받아오기 위한 함수를 만듦
+                console.log(data);
+            }
+
+            render() {
+                return (
+                    <>
+                        <LoginBox onCreate={this.loginInfo}/>
+                    </>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>    
+    <title>React and babel</title>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">  // 바벨 사용할때는 이렇게 바꿔주기
+        class LoginBtn extends React.Component {
+            constructor(props) {
+                super(props)
+
+                this.state = {
+                    isLogin : false,
+                }
+            }
+
+            render() {
+                return (
+                    <button onClick={()=>{this.setState({isLogin:!this.state.isLogin})}} >
+                        { this.state.isLogin ? '로그아웃' : '로그인' }   
+                    </button>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <LoginBtn />,      // 이렇게 꺽쇠 JSX 사용하려면 Babel cdn을 설치를 해줘야한다.
+            document.querySelector('#root')
+        )
+    </script>
+
+</body>
+
+</html>

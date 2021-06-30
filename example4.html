@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>   
+    <title>React를 이용한 clock</title>
+    <!--이 파일이 짱 중요!! 복습하기-->
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class Clock extends React.Component{
+            constructor(props){
+                super(props)
+                this.state={
+                    currentTime:new Date().toLocaleTimeString(),
+                }
+            }
+
+            componentDidMount(){        // 생명주기 함수 - 그래서 여기에 이걸 넣었을 때 1초마다 한번만 찍히게 됨
+                setInterval(()=>{                   
+                    this.setState({currentTime:new Date().toLocaleTimeString()})        
+                },1000)
+            }
+
+            render(){       //render() 는 함수임
+                //code 작성 가능 render 와 return 사이에
+                // setInterval(()=>{                   // 어차피 setState가 변화를 감지하는데 setTInterval 때문에 무한으로 돌게된다
+                //     this.setState({currentTime:new Date().toLocaleTimeString()})        // 넣을 내용이 바뀌었다는것은 setState가 알려준다.
+                // },1000)
+                console.log('aaaa');
+                return(
+                    <div>
+                        <h1>hello world</h1>
+                        <h2>It is {this.state.currentTime}</h2>
+                    </div>
+                )
+            }
+        }
+
+        // 항상 이걸 먼저 작성해주자
+        ReactDOM.render(            // 이것 때문에 딱 h2 부분만 변하는것이다.  - 비교를 해서 수정된 부분이 있으면 브라우져에 특정 부분만 다시 렌더해줌
+            <Clock/>,   //넣을값
+            document.querySelector('#root')     //넣을 위치
+        )
+    
+    </script>
+</body>
+</html>

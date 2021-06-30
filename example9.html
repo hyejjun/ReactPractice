@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>React로 숫자 키우기 - 이벤트 처리하기</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class App extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    counter: 0
+                }
+            }
+
+            onChange = (e) => {
+                //console.log(e.target.value);
+                this.setState({ counter: e.target.value })      //setState에 대해 더 알아보자!
+            }
+
+            upBtn = (e) => {
+                // console.log('up');
+                this.setState({ counter: this.state.counter+1 })
+            }
+            downBtn = (e) => {
+                // console.log('down');
+                this.setState({ counter: this.state.counter-1 })
+            }
+            render() {
+                return (
+                    // this.onChange 는 onChange 란 함수가 App 안에 있으므로 사용가능한것이다
+                    <>
+                        <input type="number" name="counter" value={this.state.counter} onChange={this.onChange} />
+                        <button onClick={this.upBtn}>+</button>
+                        <button onClick={this.downBtn}>-</button>
+                    </>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+
+</html>

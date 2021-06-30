@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <title>React</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <script>
+        // class 명령어 - 이 부분은 외워야함
+        class LoginBtn extends React.Component {
+            constructor(props) {
+                super(props)
+
+                //상태 -> 변경 되는 값
+                this.state = {
+                    isLogin : false,
+                }
+            }
+
+            render() {
+                return (
+                    React.createElement('button',{onClick:()=>{this.setState({isLogin:!this.state.isLogin})}}, this.state.isLogin ? '로그아웃' : '로그인')     
+                                                                                    //!this.state.isLogin 현재 상태의 반대 값
+                );
+            }
+        }
+
+        // render를 사용할때는 인자값을 두개를 받는다.
+        // 1. 내가 넣을 내용 2. 내가 넣을 위치
+        ReactDOM.render(
+            //React.createElement('button', null, '버튼'),      // <button class="">내용</button>    null은 클래스나 아이디값 같은 속성값 --> 이 전체가 첫번째 인자값
+            //document.querySelector('#root')
+
+            React.createElement(LoginBtn),      //class로 만든걸 가져와서
+            document.querySelector('#root')
+        )
+    </script>
+
+</body>
+
+</html>
