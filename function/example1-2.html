@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>class 와 함수형</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        /*function App(){
+            let [userid, setUserid] = React.useState('web7722')
+            let [userpw, setUserpw] = React.useState('1234')
+            return(
+                <ul>
+                    <li>
+                        <span>userid : {userid}</span>
+                    </li>
+                    <li>
+                        <span>userpw : {userpw}</span>
+                    </li>
+                </ul>
+            )
+        }*/
+
+        //class도 동일하게 만들어보기
+        class App extends React.Component{
+            state = {
+                userid :'web7722',
+                userpw : '1234'
+            }
+            render(){
+                return(
+                    <ul>
+                        <li>
+                            <span> userid : {this.state.userid}</span>
+                        </li>
+                        <li>
+                            <span> userpw : {this.state.userpw}</span>
+                        </li>
+                    </ul>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <App/>,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+
+</html>
