@@ -60,6 +60,8 @@
             let [text1, setText1] = React.useState('hello world 2')
             let [text2, setText2] = React.useState('hello world 3')
 
+            let [list, setList] = React.useState([1,2,3])    // 배열도 사용가능 
+
             // const 나 let을 해줘야 됨 - 함수에 대한 개념 
             // 함수형같은 경우는 this 자체가 존재하지 않는다.
             const handelClick = e => {
@@ -73,8 +75,14 @@
                     <p onClick={handelClick}>{text}</p>
                     <p>{text1}</p>
                     <p>{text2}</p>
+                    <p>{list}</p>
+                    <p>
+                        {list.map(v=>v+1)}
+                    </p>
+                    <p>{list[0]}</p>
                 </>
             )
+            //{list}- 배열이지만 출력할때는 string으로 출력이된다
         }
 
 
