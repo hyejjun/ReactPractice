@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>로그인 함수</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        /*function App() {
+            let [userid, setUserid] = React.useState("")
+            let [userpw, setUserpw] = React.useState("")
+            let [isLogin, setIsLogin] = React.useState(false)
+
+            const handleChangeUserid = e => { setUserid(e.target.value) }   //input의 vaule값을 가져와서 상태값에 집어넣는 부분
+            const handleChangeUserpw = e => setUserpw(e.target.value)
+            const handleSubmit = e => {     // 로그인 버튼 눌렀을때 동작되는 부분
+                e.preventDefault()
+                if (userid === 'admin' && userpw === 'admin') {
+                    setIsLogin(true)
+                } else {
+                    setIsLogin(false)
+                }
+
+                setUserid('')
+                setUserpw('')
+            }
+            return (    //form에 항상 onSubmit!!
+                <>
+                    <form onSubmit={handleSubmit}>
+                        <input type="text" name="userid" value={userid} onChange={handleChangeUserid} />
+                        <input type="password" name="userpw" value={userpw} onChange={handleChangeUserpw} />
+                        <button type="submit">로그인</button>
+                    </form>
+                    {isLogin ? '로그인 됨' : ''}
+                </>
+            )
+        }*/
+
+
+        class App extends React.Component {
+            state = {
+                userid : '',
+                userpw : '',
+                isLogin : false,
+            }
+            handleChange=(e)=>{
+                this.setState({
+                    [e.target.name] : e.target.value
+                })
+            }
+            handleSubmit =(e)=>{
+                e.preventDefault();
+                this.state.userid&&this.state.userpw === 'admin' ? this.setState({isLogin : true}) :this.setState({isLogin : false})
+                this.setState({
+                    userid : '',
+                    userpw : '',
+                })
+            }
+            render() {
+                return (
+                    <>
+                        <form onSubmit={this.handleSubmit}>
+                            <input type="text" name="userid" value={this.state.userid} onChange={this.handleChange}/>
+                            <input type="password" name="userpw" value={this.state.userpw} onChange={this.handleChange}/>
+                            <button type="submit">로그인</button>
+                        </form>
+                        {this.state.isLogin ? '로그인 됨' : ''}
+                    </>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+
+</html>
