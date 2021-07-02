@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>class 와 함수형</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        /*class App extends React.Component {
+            // class 는 다른 곳으로부터 데이터를 전달받는게 정말 쉽다.
+            constructor(props) {
+                super(props)
+                this.state = {
+                    text: 'hello world',
+                    text2: 'hi',
+                    text3: 'nice to meet you'
+
+                }
+            }
+            handelClick = e =>{
+                this.setState({text : '바꿈', text2 : '바꿈', text3 : '바꿈'})
+            }
+            render() {
+                return (
+                    <>
+                        <p onClick={this.handleClick}>{this.state.text}</p>
+                        <p>{this.state.text2}</p>
+                        <p>{this.state.text3}</p>
+                    </>
+                )
+            }
+        }*/
+
+        function App() {
+            let [text, setText] = React.useState('hello world 1')
+            /*
+                비구조 할당문을 사용함
+                React.useState('hello world 1')
+                이 코드가 실행되면 두가지 값 리턴됨 그걸 담는거임
+                [상태변수를 담는 변수, 상태를 변경해줄때 사용하는 함수]
+                1. 변수 값 (변수)
+                2. 그 변수 하나에 특정해서 상태를 변경할 수 있는 함수 (함수)
+                이 두개가 리턴된다. 그리고 이거를 담는거임
+
+                React.useState('')
+                아무것도 안넣을때는, 이렇게 해주면 됨
+
+                React.useState
+                이걸로 다른데서부터 데이터를 받아올 수 있도록 
+            */
+            let [text1, setText1] = React.useState('hello world 2')
+            let [text2, setText2] = React.useState('hello world 3')
+
+            // const 나 let을 해줘야 됨 - 함수에 대한 개념 
+            // 함수형같은 경우는 this 자체가 존재하지 않는다.
+            const handelClick = e => {
+               setText('바꿈')  // 함수('인자값')
+               setText1('바꿈2')
+               setText2('바꿈3')
+            }
+
+            return (
+                <>
+                    <p onClick={handelClick}>{text}</p>
+                    <p>{text1}</p>
+                    <p>{text2}</p>
+                </>
+            )
+        }
+
+
+        ReactDOM.render(
+            <App />,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+
+</html>
