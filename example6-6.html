@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="./example6.css">
+    <title>댓글달기 - 삭제 - 수정도 가능하게</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        class CommentForm extends React.Component {
+            state = {
+                content: '',
+            }
+
+            handelChange = (e) => {
+                //console.log(e.target.value);
+                this.setState({ [e.target.name]: e.target.value })
+                // content : e.target.value  -> 구조 할당문 이렇게 하면 handelChange 재활용 가능함 input의 name 값만 맞춰주면
+                //console.log(this.state.content);
+            }
+
+
+            handelSubmit = (e) => {
+                e.preventDefault()
+                let { content } = this.state
+                this.props.onCreate(content)    //onCreate 함수의 인자값에 content를 넣어서 보내줌
+                this.setState({ content: '' })     // input값 비워줌   input 에 value={this.state.content} 이렇게 넣어줘야함
+            }
+            render() {
+                return (
+                    <li className="comment-from">
+                        <form onSubmit={this.handelSubmit}>
+                            <h4>댓글쓰기 <span>({this.props.count})</span></h4>
+                            <span className="ps_box">
+                                <input
+                                    type="text"
+                                    placeholder="댓글내용을 입력해주세요."
+                                    className="int"
+                                    name="content"
+                                    value={this.state.content}
+                                    onChange={this.handelChange}
+                                />
+                            </span>
+                            <input type="submit" value="등록" className="btn" />
+                        </form>
+                    </li>
+                )
+            }
+        }
+        class CommentList extends React.Component {
+            //반복문을 통해서 html을 만드는 함수
+            // react에서는 반복문을 돌릴때 대부분 map을 사용한다.
+            state = {
+                content: '',
+                key: Infinity,     //무한대 숫자는 아직 상태가 업데이트 도지 않암
+            }
+
+            handleClick = (key) => {
+                this.setState({ key: key })
+            }
+            handelChange = (e) =>{
+                this.setState({
+                    [e.target.name] : e.target.value
+                })
+            }
+            handelEnter = (e) =>{
+                if(e.key === 'Enter'){
+                    let {key,content} = {...this.state}
+                    this.props.onUpdate(key,content)
+                    this.setState({key:Infinity, content:''})
+                }
+            }
+
+            inputBox = (content) => {
+                return (
+                    <input
+                        type="text"
+                        className="comment-update-input"
+                        name="content"
+                        defaultValue={content}
+                        onChange={this.handelChange}
+                        onKeyDown={this.handelEnter}
+                    />
+                )
+            }
+
+            renderList = () => {
+                return (    //여기서 items 은 list 로 보내준 부분이다.
+                    this.props.items.map((item, key) => {
+                        return (    // key값을 담아서 보냄 - 삭제 시 애로우 함수로 한번 더 묶어서 보내야함
+                            <li key={key}>
+                                <ul className="comment-row">
+                                    <li className="comment-id">{item.userid}</li>
+                                    <li className="comment-content" >
+                                        <span onClick={() => { this.handleClick(key) }}>
+                                            {key === this.state.key ? this.inputBox(item.content) : item.content}
+                                        </span>
+                                        <span
+                                            className="comment-delete-btn"
+                                            onClick={() => { this.props.onDelete(key) }}
+                                        >
+                                            X
+                                        </span>
+                                    </li>
+                                    <li className="comment-date">{item.date}</li>
+                                </ul>
+                            </li>
+                        )
+                    })
+                )
+            }
+
+            render() {
+                return (    //최상위 엘리먼트는 하나! - 하나만 리턴 가능함 - 최상위로 감싸주기
+                    <>
+                        {this.renderList()}
+                    </>
+                )
+            }
+        }
+        class CommentLayout extends React.Component {
+            render() {
+                return (
+                    <ul className="comment">
+                        {this.props.children}
+                    </ul>
+                )
+            }
+        }
+        class Comment extends React.Component {      //모든 댓글 기능이 다 그려지는 역할 - 입력, 리스트
+            state = {
+                list: [],
+            }
+            // Create Read Update Delete
+            onCreate = (data) => {          // 댓글 쓸 때 사용할 함수 - Form 에 전달
+                console.log(data);
+                let item = { userid: 'web7722', content: data, date: '2021-07-01' }
+                let { list } = { ...this.state }        // 현재 state.lsit를 복사해서 list라는 변수에 넣겠다            1. 복사
+                let newList = [...list, { ...item }]   // 새로운 변수 newList 를 선언해서 list라는 변수와 item 이라는 변수를 newList에 넣겠다.         2. 추가
+                this.setState({ list: newList })       // 그래서 list에 새로운 리스트 newList를 넣겠다.    3. 업데이트
+            }
+            onUpdate = (index,content) => {
+                let {list} ={ ...this.state}
+                console.log(list);
+                list[index].content = content
+                this.setState({list})
+            }
+
+            onDelete = (data) => {
+                //console.log(data);
+                let { list } = { ...this.state }
+                //console.log(list);
+                let newList = list.filter((value, index) => {  //data와 index가 같지 않은 것들만 리턴해주겠다
+                    return data !== index
+                })
+                this.setState({ list: newList })
+            }
+            
+            componentDidMount() {    // 모든게 다 그려지고, 다 렌더 된 다음에 실행되는 함수 - 이 자체가 렌더를 의미하지는 않는다 데이터 통신을 위한 것
+                //this.setState({list:[1,2,3,4]})     //이 한줄이 render를 한줄 더 요청한다는 의미
+                let list = [
+                    { userid: 'web7722', content: '안냥1', date: '2021-07-01' },
+                    { userid: 'web7722', content: '안냥2', date: '2021-07-01' },
+                    { userid: 'web7722', content: '안냥3', date: '2021-07-01' },
+                ]
+                this.setState({ list: list, count: list.length })      // list 로 줄여써도 됨
+                //render가 완료되면 내용을 채워준다
+            }
+
+            render() {
+                //console.log('render');
+                return (
+                    <CommentLayout>
+                        <CommentForm
+                            onCreate={this.onCreate}
+                            count={this.state.count}
+                        />
+                        <CommentList
+                            items={this.state.list}
+                            onDelete={this.onDelete}
+                            onUpdate={this.onUpdate}
+                        />
+                    </CommentLayout>
+                )
+            }
+        }
+        class App extends React.Component {
+            render() {
+                return (
+                    <Comment />
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+
+</html>
