@@ -102,4 +102,259 @@ value = {content}
 엔터 이벤트
 +++++++++++++++++++++++++++++
 
-0702 함수형
+0702 (금) 함수형
+
+++++++++++++++++++++++++++++++++
+
+0705 (월)
+
+웹팩 webpack
+
+여러개의 js 파일을 하나로 모아준다고 보면 된다.
+
+ex) 변수 이름이 겹치는 경우 
+let a = 10;
+let a = 0;
+console.log(a)
+웹펙이 변수가 겹쳐도 둘 다 사용할 수 있게 변환해준다.
+-> 코드가 꼬이지 않도록 해주고 모든 브라우져에서 사용 가능하도록 해준다.
+
+* 여러파일을 쪼개 놓은걸 합쳐준다?
+- 왜 쪼개지 ? 협업, 코드 재활용 위해서
+-> 파일을 엄청 쪼개놓고 웹펙으로 합쳐서 한 파일로 만들어서 퉁치겠다
+
+* 웹팩이 어떻게 구동되는가?
+node js 환경에서 돌아간다.
+코드를 짤 필요는 없지만 설정값이 좀 많다.
+웹팩을 사용하기 위해서는 하나의 js 파일만 있으면 됨
+환경설정 값만 잘 알고 있으면 된다.
+
+CRA
+create react active?
+그 환경으로 리액트 구축해보기
+
+폴더 열고
+폴더 생성하고 cd webpack1
+
+npm init
+리액트 기본적인
+npm install react
+npm install react-dom
+npm install -D webpack  (-D 개발용도 : 실제 배포할때는 사용하지 않음)
+npm install -D webpack-cli
+
+파일 생성 : webpack.config.js
+
+module.exports = {}
+먼저 이걸 쓰고 그 다음부터 진행한다.
+
+Entry
+내가 가져올 파일들을 설정하는 곳
+a.js 와 b.js 를 합치고 싶다면??
+
+설정해주고
+index.html
+index.jsx   // 별 의미는 없고 파일의 가독성을 주기 위해서 
+
+[index.jsx]
+react and reactDom 이걸 가져와야함
+const React = require('react')
+const ReactDOM = require('react-dom')
+
+하고 리액트 문법을 배웠던대로 쓰면 된다
+
+그 다음 webpack.config.js 를 실행시켜야 한다.
+
+[package.js]
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"webpack"   //npm run dev
+},
+설정하고
+터미널에 
+webpack 혹은 npx webpack
+
+babel 사용 안했기 때문에 오류남
+[index.jsx]
+React.createElement('div',null,'hello webpack')
+React.createElement(App),
+이렇게 고치고
+npm run dev
+하면
+
+그래서 webpack 에서도 babel 을 설정을 해줘야함
+webpack이 babel도 해석 할 수 있도록 세팅을 해주자.
+빌드를 통해서 브라우져에서 사용을 하는것
+npm install -D @babel/core
+바벨의 기본적인 것들을 설치해줌
+npm install -D @babel/preset-env 
+// 브라우저에 맞게 옛날 문법을 최신문법으로 바꿔주는 놈
+npm install -D @babel/preset-react
+
+npm install -D babel-loader
+// 바벨과 웹팩에 관련된 애
+
+해주고 또 설정해줘야함
+[webpack.config.js]
+여기서 웹팩이 바벨을 해석할 수 있도록 세팅함
+module : {
+        rules : [{
+            test : /\.jsx?$/,       //확장자가 .jsx냐 혹은 .js 냐 이게 맞다면 아래의 내용을 실행하겠다 - 정규식 표현
+            loader:'babel-loader',      // webpack과 babel 을 이어주는 녀석
+            options : {
+                presets : [
+                    '@babel/preset-env',
+                    '@babel/preset-react'
+                ]
+            }
+        }]
+    },
+하고 index.jsx 에서 다시 바벨로 바꿔좀
+npm run dev
+
+여기까지가 바벨의 기초
+
+[loginBox.jsx] 만들고
+const React = require('react')
+example17.html 부분의 loginBox 를 복붙함
+module.exports = LoginBox
+
+
+[index.jsx]
+const LoginBox = require('./loginBox.jsx')
+
+실행시킬때 마다
+npm run dev
+or
+npx webpack
+이건데 보통 npm run dev 로 해줌
+
+
+[index.jsx]
+const React = require('react')
+const {Component} = React
+const ReactDOM = require('react-dom')
+const LoginBox = require('./loginBox.jsx')
+
+// import 구문은 js version up 이 되면서 생긴 구문이다.
+// require << nodejs 처리가 되는 아이
+// 둘 다 되는데 요즘 트랜드는 import
+
+import React,{Component} from 'react'
+import ReactDOM from 'react-dom'
+import LoginBox from './loginBox.jsx
+// 왜 여기는 무조건 확장자를 써줘야하나요? 웹펙이 확장자 없으며 읽지 못해서 그럼
+그러면 이거를 설정해주면 됨 - 확장자 없음 어떻게 해라 라고 설정해주자
+[webpack.config.js]
+resolve:{
+        extensions:['.js','.jsx']
+},
+// 보통 이렇게 복수로 받는 녀석은 s 를 붙여서 해줌
+
+이렇게 바꿔줌
+그러면 node js 에서 바로 처리되는게 아니라 바벨이 한번 읽어서 처리된다.
+import 구문은 항상 webpack 과 같이 있어야 된다.
+
+그래서 webpack.config.js 같은데에서는 import 구문을 쓸 수 없다
+왜냐면 여기는 바벨이 해석해주는 데가 아니기 때문
+
+* 리액트 위해서는
+리액트, 리액트 돔, 웹펙, 바벨 이 필요하다
+
+* 빌드를 다시 하지 않아도 실시간 처리되도록 하는게 dev server
+- 자동 빌드 설정
+이것도 세팅해보자
+npm install -D react-refresh
+npm install -D @pmmmwh/react-refresh-webpack-plugin
+// 위에 두개는 새로고침? 코드 변경되었을때 refresh 해줌
+npm install -D webpack-dev-server     // 웹펙의 개발 서버
+
+만약에 pmmmwh 에서 unable to resolve dependency tree 이런식으로 오류난다면 
+npm install -D @pmmmwh/react-refresh-webpack-plugin --save --legacy-peer-deps
+이렇게 써보자
+
+[webpack.config.js]
+const webpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+
+ //plugin을 담아주자
+    plugins:[
+        new webpackPlugin()     //class를 객체형태로 변경
+    ],
+
+ options : {
+   ..
+           
+ plugins : [         //refresh 위해서 
+        'react-refresh/babel'
+   ],
+}
+
+devServer:{
+        publicPath:'/dist',
+        hot:true,
+}
+
+            
+
+[package.json]
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack server --env development"
+  },
+바꿔줌
+webpack을 webserver로 구동시킨다
+
+npm run dev 로 실행하면
+
+i ｢wds｣: Project is running at http://localhost:8080/
+이런 문구가 뜨고 여기로 들어가면 나온다.
+
+이제 바꾸면 바로 바뀐다
+이게 바로 핫로드
+
+그렇게 하면 로그인해야하는 작업도 이미 로그인 되어있는 상태에서
+변화된 부분만 바뀌기 때문에
+디버깅 속도가 빨라진다.
+
+이게 웹팩의 능력이다
+
+
+[webpack.config.js]
+
+'@babel/preset-env',
+상세 설정 어떤 브라우져까지 지원할건지
+https://github.com/browserslist/browserslist
+
+['@babel/preset-env',{
+   targets : {
+      browsers : ['> 5% in KR','last 2 chrome versions']
+     },
+   debug : true,  // 뭐뭐 실행할건지 찍힘 사진 3
+}],
+
+plugins:[
+        new webpackPlugin(),     //class를 객체형태로 변경
+        new webpack.LoaderOptionsPlugin({debug:true})   // 디버그 쓸 수 있는 공간을 다 디버그로 달아준다는것
+],
+new webpack.LoaderOptionsPlugin({debug:true}) 이거는 디버그를 달아주는 애기 때문에
+그래서 debug : true 부분 지워주면 됨
+
+설정하고
+npm run dev
+
+
++++++++++++++++
+이렇게 한거를 한번에 설치해보자!
+
+cd..
+폴더 밖으로 나가서
+npm install -g create-react-app
+어디서든 사용할 수 있게?
+
+npx create-react-app reactsample (내가생성할폴더명)
+cd reactsample (폴더안으로 들어가자)
+
+npm start 하면 실행되면서 자동으로 페이지가 뜨게 된다
+src/App.js 에서 코드 작성하면 된다.
+
+src/index.js 에서 쓸데없는 코드를 지워준다.
