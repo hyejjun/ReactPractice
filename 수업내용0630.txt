@@ -358,3 +358,6 @@ npm start 하면 실행되면서 자동으로 페이지가 뜨게 된다
 src/App.js 에서 코드 작성하면 된다.
 
 src/index.js 에서 쓸데없는 코드를 지워준다.
+
+asdfasdfas
+test
