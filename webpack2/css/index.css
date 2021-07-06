@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style: none;
+    padding: 5px;
+    margin: 5px;
+}
+
+body{
+    background: black;
+    color: white;
+}
+
+.Comp{
+    border: 3px solid blue;
+}
+
+
+
+
+
+/*이렇게 작성하고 index.html 에서 css 연결하는게 기존 방식*/

@@ -14,6 +14,8 @@
 /reactsample/yarn-error.log*
 
 /webpack1/node_modules
+/webpack2/node_modules
+/webpack3/node_modules
 
 
 

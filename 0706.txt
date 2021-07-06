@@ -1,0 +1,153 @@
+세팅을 다 한 뒤 그걸 재사용 할 때 
+1. 
+pacakge.json
+webapack.config.js 복사해오기 - 그 폴더 안에서 npm install
+안될때
+
+npm install --save --legacy-peer-deps
+
+
+* 버전 오류일 가능성이 크다
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+이런 오류가 난다면
+
+
+2. index html 만들고 root div 만들고 script ./
+<script type="text/javascript" src="./dist/app.js"></script>
+
+3. inde jsx 에서 기본 App Component 만들기
+    (import로 React ReactDOM 가져오기)
+
+4. npm run dev 하면 바로 쓸 수 있게 된다.
+
+
+* 웹팩의 역할
+여러 파일을 받아서 하나로 묶어서 만들어준다
+bundle.js
+
+단점 : js 를 수정하면 다시 웹팩을 돌려서 다시 생성하고 브라우저를 다시 열어야만 볼 수 있는것
+보완하기 위해서 dev server 사용한다
+server를 같이 사용해서 코드가 수정될때마다 서버가 그걸 읽어서 웹팩에 자동적으로 요청을 해서 
+업뎃 시켜주는 역할을 dev server가 한다.
+
+코드만 수정하면 딱 보일 수 있게끔하자
+
+
+---------------------------------
+
+
+* 목적
+props를 쓰지 않으면서 만들어보자 - 쉬운것부터
+1. 위에 상단 헤더 부분을 얼추 만드는걸 오늘 해볼거야
+2. css 관리를 어떻게 하는지
+
+
+<script type="text/javascript" src="./dist/app.js"></script>
+dev server 로 쓰는거는 자동으로 dist 파일이 생기지 않는다 숨겨져 있음
+우리가 만든거를 dist 폴더 안에 app.js 에 통합해서 생성
+
+
+------------------------------------
+
+css
+기존 방식   - css 만들고 html 에 직접 적용
+webapack을 사용한 css 적용
+
+index.jsx 
+app.js
+classComp
+FuncComp
+
+webapack css 적용
+서버끄고
+
+npm install -D style-loader     (2. 가져온걸 가지고 style로 )
+npm install -D css-loader       (1. 가장 중요 - react 파일에서 css 부르는 역할)
+npm install -D mini-css-extract-plugin
+
+CRA 를 이용해서 설치할때는 기본적으로 세팅 되어있음 - npm install create-reat-app [생성,사용할 폴더] 
+
+
+npm install -D css-loader 
+react 페이지에서 import로 css 파일을 가져올 수 있게 해주는 녀석
+
+npm install -D style-loader
+css-loader 가져온아이로 <style> 이 태그 안에 내용을 적어주는 녀석 </style> 
+
+
+[webapack.config.js]
+module 안에서 작업
+rules 안에서 두번째 인자값에
+
+test : /\.css$/,
+이 부분은 외우기
+
+설치한 녀석들을 use 로 사용하자
+use : ['style-loader','css-loader']
+순서 중요함 - 뒤에있는것부터 실행되기때문에 style-loader 는 css-loader 가 없으면 실행 불가한 아이다
+
+
+작성하고 npm run dev
+
+장점 : 
+Component 별로 css 나누고 싶을때
+같은 class 명을 썼을 때 잘 안되는 부분들..
+
+각각 css 만들고
+classComp.jsx
+FuncComp.jsx
+에서 각각 import 해주면 된다.
+
+근데 F12눌러서 보면 css마다 style이 각각 나오게 됨
+이거를 파일 하나로 묶어주는걸 처리해보자
+
+[webapack.config.js]
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+use : [MiniCssExtractPlugin.loader,'css-loader']
+이렇게 바꿔준다.
+
+바깥에
+plugins : [
+,
+new MiniCssExtractPlugin({filename:'app.css'})
+]
+묶는 파일명을 app.css 로 만들어주겠다.
+
+그러면 dist 안에 app.css가 만들어진다.
+서버를 껐다 켜보자
+사진 3 - 연결이 잘 되었다는 의미이다.
+
+그런 뒤에 index.html 에서 app.css 를 연결해주자
+<link rel="stylesheet" href="./dist/app.css">
+
+이제 css 를 바꿀때 컴포에서 어디에 썼는지 확인하고 다시 css를 찾아서 거기서 수정해주면 된다.
+
+이 기술은 리액트 기술이 아니라 웹팩이 해주는 것이다.
+
+---------------------------
+webapack3을 만들어서
+App.jsx 에서 Navbar.jsx 를 import로 불러와서 쓸 수 있게 했다.
+
+서버 끄고
+npm install react-icons
+설치하자
+
+
+[Navbar.jsx]
+import {FaFacebook} from 'react-icons/fa'
+
+<li><FaFacebook/></li>
+<li><FaInstagram/></li>
+<li><FaBeer/> 마실사람?</li>
+
+react icons 페이지 들어가면 사용법이 나온다. (구글 검색)
+
+하고 다시 서버 키면 npm run dev
+
+* 배열을 하나 만들어서 
+ul 안에 있는 li 를 담고 반복문으로 출력시키는거 하자
+
+
+state = true false 로 메뉴바
