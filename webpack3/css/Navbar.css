@@ -1,0 +1,80 @@
+.nav-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /*양쪽 끝 정렬*/
+    padding: 1rem;
+}
+
+.logo{
+    font-size: 3rem;    /* 0.75rem 12px 확대축소시 비율로 늘어남*/
+}
+
+.links-container{
+    height: 0;
+    overflow: hidden;
+    /*display: none 해도 상관없음 작아지면 메뉴바 안보이게함*/
+}
+.open{
+    display: block;
+    width: 40%;
+    background: #c3c3c3;
+    float: right;
+    height: auto;
+    min-height: 200px;
+}
+
+.social-icons{
+    height: 0;
+    overflow: hidden;
+}
+
+.nav-toggle{
+    font-size: 2.5rem;
+    background: transparent;    /*배경 안보이게*/
+    border-color: transparent;  /*선 안보이게*/
+}
+
+/*PC CSS style*/
+@media screen and (min-width:800px) {
+    .logo{
+        font-size: 4rem;
+    }
+    .nav-toggle{
+        font-size: 0;
+    }
+
+    .nav-center{
+        max-width: 1170px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+    }
+
+    .links-container{
+        height: auto;
+    }
+    
+
+    .links{
+        display: flex;
+    }
+
+    .links > li > a{
+        margin: 0 0.5rem;
+        color: #000;
+        font-size: 1.25rem;
+    }
+
+    .social-icons{
+        display: flex;
+        height: auto;
+    }
+
+    .social-icons>li>a{
+        margin: 0 0.5rem;
+        color: #000;
+    }
+
+}
