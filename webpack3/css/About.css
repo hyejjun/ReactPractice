@@ -1,0 +1,6 @@
+.form_wrap{
+    background: black;
+}
+.form_wrap>p{
+    color: white;
+}

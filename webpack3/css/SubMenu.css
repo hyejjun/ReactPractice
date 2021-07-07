@@ -1,0 +1,17 @@
+.submenu{
+    width: 20%;
+    padding: 15px 30px;
+    box-sizing: border-box;
+}
+
+.submenu>ul>li{
+    height: 50px;
+    font-size: 17px;
+    border-bottom: 1.5px solid #d8d8d8;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+.submenu>ul>li>a{
+    color: #000;
+}

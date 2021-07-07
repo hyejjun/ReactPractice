@@ -58,5 +58,6 @@ module.exports = {
     devServer:{
         publicPath:'/dist',
         hot:true,
+        historyApiFallback:true   //새로 고침시 해당 url이 없을 경우에 그냥 무시하고 실행
     }
 }
