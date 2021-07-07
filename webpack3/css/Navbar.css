@@ -20,11 +20,13 @@
     height: auto;
     min-height: 200px;
 }
-
 .links-container.on{
+    display: block;
     height: 100%;
+    width: 100%;
+    position: absolute;
+    background: lightgray;
 }
-
 .links{
     display: flex;
     flex-direction: column;
@@ -85,8 +87,9 @@
     .links-container{
         height: auto;
     }
-    
-
+    .links-container.on{
+        display: none;
+    }
     .links{
         display: flex;
         flex-direction: row;

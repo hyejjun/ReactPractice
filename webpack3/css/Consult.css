@@ -1,14 +1,29 @@
 .project_wrap{
     width: 100%;
     height: auto;
-    overflow: hidden;
-    min-height: 800px;
+    overflow: scroll;
+    min-height: 600px;
 }
 
 .project_center{
-    width: 1200px;
-    height: auto;
+    width: 90vw;
     margin: 0 auto;
-    display: flex;
+    height: auto;
+    min-height: 700px;
+}   
+
+
+@media screen and (min-width:800px) {
+    .project_wrap{
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        min-height: 800px;
+    }
+
+    .project_center{
+        width: 1200px;
+        display: flex;
+    }   
 }
 
