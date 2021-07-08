@@ -84,12 +84,16 @@ input, select, textarea {
     border-radius: 30px;
 }
 
+#male+label{
+    margin-right: 30px;
+}
+
 @media screen and (min-width:800px) {
     .consult_content{
         width: 80%;
         height: auto;
         float: right;
-        min-height: 600px;
+        min-height: 900px;
         padding-left: 7%;
         box-sizing: border-box;
     }
@@ -110,7 +114,7 @@ input, select, textarea {
     
     .consult_table>tr>th{
         width: 130px;
-        background: #f8f8f8;
+        /* background: #f8f8f8; */
     }
     .consult_table>tr>td{
         padding-left: 50px;

@@ -87,3 +87,9 @@ class Consulting extends Component {
 }
 
 export default Consulting
+
+
+/*
+    여기서 타이틀 /개인정보취급 / 상담정보 각각 컴포넌트로 나눠봐야함
+    Childern 활용해서 해보자
+*/

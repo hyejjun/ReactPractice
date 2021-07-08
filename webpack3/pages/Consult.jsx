@@ -26,3 +26,8 @@ class Consult extends Component {
 }
 
 export default Consult
+
+/*
+    이거는 여기서 이렇게 쓰면 안되고 App.jsx 에서 라우팅을 해야함
+    두번 라우팅 하면 안좋음
+*/
