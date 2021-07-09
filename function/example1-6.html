@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>0709 hooks 추가 자습</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const useInput = (defaultValue) => {
+            const [value, setValue] = React.useState(defaultValue)
+            console.log("value = ", value);
+            const onChange = e => {
+                // 이벤트를 발생시킨 value 값을 가져오는게 목적
+                const { target: { value } } = e   //  비구조 할당문 e.target && e.target.value 를 선언한것 - 문법이니 외우자
+                // const value = e.target.value
+                setValue(value)                     // value 값으로 state 변환
+            }
+            return { value, onChange }    // 상태 value와 onChange 함수 표현식을 담은 객체를 반환
+            // return { value: value, onChange(변수) : onChange(함수)}
+        }
+        // vaule : web7722, onChange : onChange()
+        const App = () => {
+            const user = useInput('web7722')
+            const name = useInput('ingoo')
+            console.log(user, name);    // user:{vaule : web7722, onChange : onChange()} 이렇게 들어간걸 깊은복사로 input 속성값에 넣는거임
+            return (
+                <>
+                    <h1>hello hooks</h1>
+                    <input {...user} name="user" placeholder="아이디를 입력해주세요" />
+                    <input {...name} name="name" placeholder="이름을 입력해주세요" />
+
+                </>
+            )
+        }
+
+        /*
+        user:{vaule : web7722, onChange : onChange()}
+        1. {...user} 
+        2. {...{'value':'web7722', 'onChange':onChange()}}
+        -> 이거는 왜 되는가? - html에서는 이렇게 안되는데,, 
+        JSX가 얘를 해석할 때 객체값을 받아서 처리함 근데 우리는 미리 객체 형태로 준거임 그래서 처리가 된다! 
+
+        둘이 같은거임
+        받아온거를 복사해서 넣는거임
+        */
+        ReactDOM.render(
+            <App />,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+
+</html>

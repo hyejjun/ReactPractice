@@ -1,0 +1,59 @@
+/class/example24.html
+
+componentDidMount() {       // 생명주기
+    this.refresh()
+}
+랜더가 완료가 되었을때 
+
++++++++++++++++++++++++
+
+js 는 싱글 스레드
+
+프로세스(응용프로그램 하나) 안에 스레드라는게 존재한다.
+
+멀티 스레드를 지원한다 ? - 내 코드가 여러가지 작업공간을 갖는다.
+
+
+예) 파이썬
+1 (1초 쉬고), 2 , 3
+아래코드 실행 안되고 쉬었다가 실행됨
+
+* 리액트
++++++++++++
+refresh = async () => {     // 비동기
+    const response = await fetch('https://dog.ceo/api/breeds/image/random')
+    const data = await response.json()
+    this.setState({ dog: data })
+}
+
+https://dog.ceo/api/breeds/image/random
+이걸 주소창에 쳐보면 어떤 json 값이 나온다.
+{"message":"https:\/\/images.dog.ceo\/breeds\/hound-walker\/n02089867_671.jpg","status":"success"}
+그러면 거기에 https:// ~~ .jpg 가 나온다 그걸 다시 주소창에 쳐보면 랜덤 강아지 이미지가 나옴
+-> API를 요청할때마다 강아지 사진 url을 던져주는 녀석이다.
+
+const data = await response.json()
+전체가 나오고
+사용할때는 
+<img src={this.state.dog.message}/>
+이렇게 사용 그 중에 message 부분을 사용한다.
+
+++++++++++++++++++++++++
+/function/example1-5.html
+
+함수형 컴포넌트 만들때 function 보다는 
+const 컴포넌트명 ()=>{ } 이렇게 쓰자 - 트랜드
+
+const [dog, setDog] = React.useState('')
+흡수해서 상태값을 만들거야
+const [변수명, set변수명] = React.useState('변수의 초기값')
+
+
+React.useEffect(()=>{},[dog]) 
+비동기식으로 처리하기 위해 애로우함수로
+dog라는 상태변수가 바뀔 때마다 실행된다.
+만약 빈 배열이면 최초 실행 될때 === componentDidMount 와 동일한 기능
+
++++++++++++++++++++++++++++++++++++
+/function/example1-6.html
+https://hoony-gunputer.tistory.com/entry/ReactHooks-Custom-Hooks-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
