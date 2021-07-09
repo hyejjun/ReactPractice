@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>0708 class</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        
+        class Login extends React.Component{
+            onClickHandle = (data) =>{          /* 이 부분은 순수하게 js 영역임 그래서 대괄호를 쓰지 않은거임*/
+                //alert(this.props.onClick)
+                console.log(data);
+            }
+            render(){/*대괄호를 쓰는 영역은 return 안에 element안에서 쓴다 */
+                return(
+                    <>
+                        <button onClick={()=>{this.onClickHandle('술병')}}>
+                            {this.props.onClick}
+                        </button>
+                    </>
+                )
+            }
+        }
+
+        class LoginBox extends React.Component{
+            render(){
+                return(
+                    <>
+                        <Login onClick={this.props.onClick}/>
+                    </>
+                )
+            }
+        }
+
+        class App extends React.Component{
+            render(){
+                return(
+                    <>
+                        <LoginBox onClick='Login'/>
+                        {/* 
+                            상태값이 아닌 텍스트값을 넘긴거임
+                            JSX 영역에서 js를 사용하려면 { }
+                            아니면 그냥 함
+                        */}
+                    </>
+                )
+            }
+        }
+        
+        ReactDOM.render(
+            <App/>,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+</html>

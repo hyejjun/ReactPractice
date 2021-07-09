@@ -1,0 +1,84 @@
+/class/example20.html
+
+
+{React.createElement(LoginBox)}
+<LoginBox/>
+<꺽쇠> 이 구문 자체를 JSX라고 한다
+이렇게 하면 로그인 박스가 두번 실행된다 
+- 같은 구문 
+- Babel이 꺽쇄를 보고 해석해서 저 createElement로 바꿔주는거임
+
+저 대괄호의 의미는 뭘까?? --> jsx에서 js 문법을 쓰겠다
+
+<></>
+빈 태그 혹은 특정태그가 들어가는 순간부터 넌적스 구문이 시작된다는 의미
+그때부터는 넌적스로만 구문을 작성해야한다는 뜻이다.
+
+근데 그 안에서 또 javascript로 실행시키고 싶으니 (js문법을 쓰고 싶으니) {} 대괄호를 쓴다
+
+
+예 ) 
+res.render('index',{
+    name : 'ingoo'
+})
+넌적스가 저 index를 읽어서 해석해서 하는거임
+
+-- index.html
+{{name}}
+
+내가 사용하는 언어에서 다른 언어를 쓸때 대괄호를 쓴다
+
+++++++++++++++++++
+컴포넌트
+App - LoginBox - Login
+
+App 에서 Login 이라는 텍스트를 보냄
+LoginBox 에서 받음 또 그 텍스트를 Login 으로 보냄
+Login 에서 그걸 button 에 innerText로 사용 + onClick 에 함수 onClickHandle 을 넣었음 
+그 함수는 alert로 Login 이라는 텍스트를 띄우는애임
+
+
+++++++++++++++++++
+함수 괄호를 언제 넣는가?
+{this.함수}
+{this.함수()}
+
+onClick 은 눌렀을때 실행되는함수
+그래서 값을 쓸때 옆에 괄호를 써주면 누르기도 전해 실행이 되어서 그렇게 쓰면 안된다
+
+-> 이벤트 내용에 넣어줄때는 함수자체를 넘기는것 : 함수를 실행시키는것이 아니다.
+onClick={this.onClickHandle()}
+
+그렇다면 
+onClick={()=>{this.onClickHandle(인자값)}}
+이거는 왜 되는가?
+함수 안에 함수를 담았다.
+사진 11, 12     [/hyejun/0706/사진]
+함수 안에 함수를 담았다고 해서 내부 함수가 실행되는게 아니다.
+이거는 인자값을 넣고 싶을 때 사용하면 된다.
+
+사진 13
+(인자값)=>{함수()}
+: 이 경우 뭔가 앞에서 뭔가 값을 갖고 있을 때 이렇게 앞에 함수에 인자값을 쓰게 된다.
+사진 14
+example21 실행순서
+
+사진 15 도 참고
+
+++++++++++++++++++++++
+
+
+
+* 일단 수정하긴했는데
+기본적인 
+<div className="project_wrap">
+    <div className="project_center">
+        <SubMenu />
+    </div>
+</div>
+
+<div className="consult_title">상담신청</div>
+
+이 두 부분이 겹쳐서 각각 컴포넌트로 빼야 할것같다.
+이거를 하나로 빼서 Childern 으로 줘야할듯싶다
+

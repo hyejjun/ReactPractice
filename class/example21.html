@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>0708 class - 익명함수 앞에함수에서 인자값 던질때 </title>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        class Button extends React.Component{
+            render(){
+                return(
+                    <button onClick={(i)=>this.props.onClick('내부인자값')}>Button</button>
+                )
+            }
+        }
+        class Login extends React.Component{
+            onClickHandle = (data) =>{          
+                console.log(this.props.onClick, data);
+            }
+            render(){
+                return(
+                    <>
+                        <Button onClick={(i)=>{this.onClickHandle(i)}}>
+                            {this.props.onClick}
+                        </Button>
+
+                    </>
+                )
+            }
+        }
+
+        class LoginBox extends React.Component{
+            render(){
+                return(
+                    <>
+                        <Login onClick={this.props.onClick}/>
+                    </>
+                )
+            }
+        }
+
+        class App extends React.Component{
+            render(){
+                return(
+                    <>
+                        <LoginBox onClick='Login'/>
+                    </>
+                )
+            }
+        }
+        
+        ReactDOM.render(
+            <App/>,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+</html>
