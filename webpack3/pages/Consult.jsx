@@ -11,14 +11,10 @@ class Consult extends Component {
         return (
             <div className="project_wrap">
                 <div className="project_center">
-                    <BrowserRouter>
-                        <SubMenu />
-                        <Switch>
-                            <Route path='/consult' component={Consulting} />
-                            <Route path='/apply' component={Apply} />
-                            <Route path='/faq' component={Faq} />
-                        </Switch>
-                    </BrowserRouter>
+                    <SubMenu />
+                    <div className="consult_content">
+                        <div className="consult_title">{this.props.children}</div>
+                    </div>
                 </div>
             </div>
         )
