@@ -76,7 +76,8 @@
             handelEnter = (e) =>{
                 if(e.key === 'Enter'){
                     let {key,content} = {...this.state}
-                    console.log(key, content);
+                    console.log("key =",key);
+                    console.log("content = ",content);
                     this.props.onUpdate(key,content)
                     this.setState({key:Infinity, content:''})
                 }

@@ -62,10 +62,9 @@
 
             const handelEnter = (e) => {
                 if (e.key === 'Enter') {
-                    let key_c = { ...key }
-                    console.log("key_c = ",key_c);
-                    let content_c = { ...content }
-                    console.log("content_c = ",content_c);
+                    let key_c = key
+                    let content_c = content
+                    // 깊은 복사가 안되는 문제... 어떻게 해결해야 하는지.?
                     props.onUpdate(key_c, content_c)
                     setKey(Infinity)
                     setConent('')
