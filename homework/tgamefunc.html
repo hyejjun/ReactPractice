@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>TTTGame 함수형으로 변환 (과제)</title>
+    <style>
+        body {
+            font: 14px "Century Gothic", Futura, sans-serif;
+            margin: 20px;
+        }
+
+        ol,
+        ul {
+            padding-left: 30px;
+        }
+
+        .board-row:after {
+            clear: both;
+            content: "";
+            display: table;
+        }
+
+        .status {
+            margin-bottom: 10px;
+        }
+
+        .square {
+            background: #fff;
+            border: 1px solid #999;
+            float: left;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 34px;
+            height: 34px;
+            margin-right: -1px;
+            margin-top: -1px;
+            padding: 0;
+            text-align: center;
+            width: 34px;
+        }
+
+        .square:focus {
+            outline: none;
+        }
+
+        .kbd-navigation .square:focus {
+            background: #ddd;
+        }
+
+        .game {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .game-info {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function Square(props) {
+            return (
+                <button className="square" onClick={props.onClick}>
+                    {props.value}
+                </button>
+            );
+        }
+
+        const Board = (props) => {
+            const renderSquare = (i) => {
+                return (
+                    <Square
+                        value={props.squares[i]}
+                        onClick={() => props.onClick(i)}
+                    />
+                );
+            }
+            return (
+                <div>
+                    <div className="board-row">
+                        {renderSquare(0)}
+                        {renderSquare(1)}
+                        {renderSquare(2)}
+                    </div>
+                    <div className="board-row">
+                        {renderSquare(3)}
+                        {renderSquare(4)}
+                        {renderSquare(5)}
+                    </div>
+                    <div className="board-row">
+                        {renderSquare(6)}
+                        {renderSquare(7)}
+                        {renderSquare(8)}
+                    </div>
+                </div>
+            )
+        }
+
+        const Game = () => {
+            const [history, setHistory] = React.useState([{ squares: Array(9).fill(null) }])
+            const [stepNumber, setStepNumber] = React.useState(0)
+            const [xIsNext, setxIsNext] = React.useState(true)
+
+            const handleClick = (i) => {
+                const history1 = history.slice(0, stepNumber + 1);
+                const current = history[history.length - 1];
+                const squares = current.squares.slice();
+
+                if (calculateWinner(squares) || squares[i]) {
+                    return;
+                }
+                squares[i] = xIsNext ? "X" : "O";
+                setHistory(
+                    history1.concat([
+                        {
+                            squares: squares
+                        }
+                    ])
+                )
+                setStepNumber(history1.length)
+                setxIsNext(!xIsNext)
+            }
+
+            const jumpTo = (step) => {
+                setStepNumber(step)
+                setxIsNext((step % 2) === 0)
+            }
+
+            // const history = history;
+            const current = history[stepNumber];
+            const winner = calculateWinner(current.squares);
+
+            const moves = history.map((step, move) => {
+                const desc = move ?
+                    'Go to move #' + move :
+                    'Go to game start';
+                return (
+                    <li key={move}>
+                        <button onClick={() => jumpTo(move)}>{desc}</button>
+                    </li>
+                );
+            });
+
+            let status;
+            if (winner) {
+                status = "Winner: " + winner;
+            } else {
+                status = "Next player: " + (xIsNext ? "X" : "O");
+            }
+
+            return (
+                <>
+                    <div className="game">
+                        <div className="game-board">
+                            <Board
+                                squares={current.squares}
+                                onClick={i => handleClick(i)}
+                            />
+                        </div>
+                        <div className="game-info">
+                            <div>{status}</div>
+                            <ol>{moves}</ol>
+                        </div>
+                    </div>
+                </>
+            )
+        }
+
+        //-----------------------------------
+        ReactDOM.render(
+            <Game />,
+            document.querySelector('#root')
+        )
+
+        function calculateWinner(squares) {
+            const lines = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+            for (let i = 0; i < lines.length; i++) {
+                const [a, b, c] = lines[i];
+                if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+                    return squares[a];
+                }
+            }
+            return null;
+        }
+    </script>
+</body>
+
+</html>

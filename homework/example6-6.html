@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="../class/example6.css">
+    <title>댓글 달기 삭제 수정 함수형으로 변환</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const CommentForm = (props) => {
+            const [content, setContent] = React.useState('')
+
+            const handelChange = (e) => {
+                setContent(e.target.value)      //input에 들어간 내용을 content에 업데이트
+            }
+
+            const handelSubmit = (e) => {
+                e.preventDefault()
+                props.onCreate(content)
+                setContent('')
+            }
+            return (
+                <li className="comment-from">
+                    <form onSubmit={handelSubmit}>
+                        <h4>댓글쓰기 <span>({props.count})</span></h4>
+                        <span className="ps_box">
+                            <input
+                                type="text"
+                                placeholder="댓글내용을 입력해주세요."
+                                className="int"
+                                name="content"
+                                value={content}
+                                onChange={handelChange}
+                            />
+                        </span>
+                        <input type="submit" value="등록" className="btn" />
+                    </form>
+                </li>
+            )
+        }
+
+
+        const CommentList = (props) => {
+            const [content, setConent] = React.useState('')
+            const [key, setKey] = React.useState(Infinity)
+
+            const handleClick = (key1) => {
+                setKey(key1)
+            }
+            const handelChange = (e) => {
+                setConent(e.target.value)
+            }
+
+            const handelEnter = (e) => {
+                if (e.key === 'Enter') {
+                    let key_c = { ...key }
+                    let content_c = { ...content }
+                    props.onUpdate(key_c, content_c)
+                    setKey(Infinity)
+                    setConent('')
+                }
+            }
+
+            const inputBox = (content1) => {
+                return (
+                    <input
+                        type="text"
+                        className="comment-update-input"
+                        name="content"
+                        defaultValue={content1}
+                        onChange={handelChange}
+                        onKeyDown={handelEnter}
+                    />
+                )
+            }
+            const renderList = () => {
+                //console.log(props.items);
+                return (
+                    props.items.map((item, k) => {
+                        return (
+                            <li key={k}>
+                                <ul className="comment-row">
+                                    <li className="comment-id">{item.userid}</li>
+                                    <li className="comment-content" >
+                                        <span onClick={() => { handleClick(k) }}>
+                                            {k === key ? inputBox(item.content) : item.content}
+                                        </span>
+                                        <span
+                                            className="comment-delete-btn"
+                                            onClick={() => { props.onDelete(k) }}
+                                        >
+                                            X
+                                        </span>
+                                    </li>
+                                    <li className="comment-date">{item.date}</li>
+                                </ul>
+                            </li>
+                        )
+                    })
+                )
+            }
+
+            return (
+                <>
+                    {renderList()}
+                </>
+            )
+
+        }
+
+        const CommentLayout = (props) => {
+            return (
+                <ul className="comment">
+                    {props.children}
+                </ul>
+            )
+        }
+
+        const Comment = () => {
+            const [list, setList] = React.useState([])
+            const [count, setCount] = React.useState(0)
+
+            const onCreate = (data) => {
+                let item = { userid: 'web7722', content: data, date: '2021-07-01' }
+                let list1 = { ...list }
+                let newList = [...list, { ...item }]
+                setList(newList)
+            }
+
+            const onUpdate = (index, content2) => {
+                let list2 = { ...list }
+                console.log(index);
+                console.log(list2[index]);
+                list2[index].content = content2
+                setList(list2)
+            }
+
+            const onDelete = (data) => {
+                let list3 = { ...list }
+                let newList = list3.filter((value, index) => {
+                    return data !== index
+                })
+                setList(newList)
+            }
+
+            React.useEffect(() => {
+                let list = [
+                    { userid: 'web7722', content: '안냥1', date: '2021-07-01' },
+                    { userid: 'web7722', content: '안냥2', date: '2021-07-01' },
+                    { userid: 'web7722', content: '안냥3', date: '2021-07-01' },
+                ]
+                setList(list)
+                setCount(list.length)
+            }, [])
+            
+            return (
+                <CommentLayout>
+                    <CommentForm
+                        onCreate={onCreate}
+                        count={count}
+                    />
+                    <CommentList
+                        items={list}
+                        onDelete={onDelete}
+                        onUpdate={onUpdate}
+                    />
+                </CommentLayout>
+            )
+        }
+
+        const App = () => {
+            return (
+                <Comment />
+            )
+        }
+        ReactDOM.render(
+            <App />,
+            document.querySelector('#root')
+        )
+    </script>
+</body>
+
+</html>
