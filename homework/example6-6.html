@@ -135,6 +135,7 @@
                 let list1 = { ...list }
                 let newList = [...list, { ...item }]
                 setList(newList)
+                setCount(newList.length)
             }
 
             const onUpdate = (index, content2) => {
@@ -145,6 +146,7 @@
                 // console.log("list2[index]=",list2[index]);
                 list2[index].content = content2
                 setList(list2)
+                setCount(list2.length)
             }
 
             const onDelete = (data) => {
@@ -153,6 +155,7 @@
                     return data !== index
                 })
                 setList(newList)
+                setCount(newList.length)
             }
 
             React.useEffect(() => {
