@@ -65,6 +65,7 @@
             }
 
             handleClick = (key) => {
+                console.log(key);
                 this.setState({ key: key })
             }
             handelChange = (e) =>{
@@ -75,6 +76,7 @@
             handelEnter = (e) =>{
                 if(e.key === 'Enter'){
                     let {key,content} = {...this.state}
+                    console.log(key, content);
                     this.props.onUpdate(key,content)
                     this.setState({key:Infinity, content:''})
                 }
@@ -156,10 +158,11 @@
             }
 
             onDelete = (data) => {
-                //console.log(data);
+                console.log(data);
                 let { list } = { ...this.state }
-                //console.log(list);
+                console.log(list);
                 let newList = list.filter((value, index) => {  //data와 index가 같지 않은 것들만 리턴해주겠다
+                    console.log("value =",value,", index =", index);
                     return data !== index
                 })
                 this.setState({ list: newList })

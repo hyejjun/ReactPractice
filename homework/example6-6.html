@@ -53,6 +53,7 @@
             const [key, setKey] = React.useState(Infinity)
 
             const handleClick = (key1) => {
+                console.log(key1);
                 setKey(key1)
             }
             const handelChange = (e) => {
@@ -62,7 +63,9 @@
             const handelEnter = (e) => {
                 if (e.key === 'Enter') {
                     let key_c = { ...key }
+                    console.log("key_c = ",key_c);
                     let content_c = { ...content }
+                    console.log("content_c = ",content_c);
                     props.onUpdate(key_c, content_c)
                     setKey(Infinity)
                     setConent('')
@@ -136,15 +139,17 @@
             }
 
             const onUpdate = (index, content2) => {
-                let list2 = { ...list }
-                console.log(index);
-                console.log(list2[index]);
+                let list2 = [ ...list ]
+                console.log("list2 = ",list2);
+
+                // console.log("수정 index = ",index);
+                // console.log("list2[index]=",list2[index]);
                 list2[index].content = content2
                 setList(list2)
             }
 
             const onDelete = (data) => {
-                let list3 = { ...list }
+                let list3 = [ ...list ]
                 let newList = list3.filter((value, index) => {
                     return data !== index
                 })
