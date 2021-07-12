@@ -84,7 +84,6 @@
                 )
             }
             const renderList = () => {
-                //console.log(props.items);
                 return (
                     props.items.map((item, k) => {
                         return (
@@ -140,10 +139,6 @@
 
             const onUpdate = (index, content2) => {
                 let list2 = [ ...list ]
-                console.log("list2 = ",list2);
-
-                // console.log("수정 index = ",index);
-                // console.log("list2[index]=",list2[index]);
                 list2[index].content = content2
                 setList(list2)
                 setCount(list2.length)

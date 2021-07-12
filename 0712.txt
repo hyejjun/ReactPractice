@@ -1,0 +1,79 @@
+class 는 거의 끝났다고 보면 되는데
+hooks - function 부분을 배워야 한다.
+
+useEffect
+useCallback
+useMemo
+
+Context
+Ref
+
+
+cf)
+피보나치 수열 문제
+DP 문제
+- 알고리즘 문제 유형 중 하나다
+DP - 메모제이션
+
++++++++++++++++++++++++++++++
+hooks 와 class
++++++++++++++++++++++++++++++
+
+* class 할때
+this.setState({
+    number : this.state.number +1 
+})  
+이거 까먹지 말자
+
+---------------------------
+setNumber -  상태값이 바뀌면 
+const CounterFn() 부분이 전체 다 다시 실행된다
+
+그래서 나온게 useMemo 와 useCallback
+
+
+++++++++++++++++++++
+그 이전의 상태값을 인자값으로 받을때
+setNumber((prevNumber)=>prevNumber-1)
+setNumber((이전상태값_변수)=>이전상태값_변수-1)
+변수는 아무거나 써줘도 된다. 
+
++++++++++++++++++++++++++++
+* useMemo
+hooks API 참고서
+
+--------------------------
+/0712/vifo.html
+DP : 다이나믹 프로그래밍 - 어려운 알고리즘 중 하나라고 볼 수 있다.
+코테 마지막 문제에서 자주 출제되고 
+그래프 + DP 로 출제가 된다.
+
+그러면 DP가 뭐냐?
+- 규칙을 찾는거라고 보면 된다.
+
+
+피보나치
+function fibo(n){
+            
+            if(n==1) return 1
+            if(n==2) return 1
+
+            return fibo(n-2) + fibo(n-1)
+        }
+n-2 n-1 n
+n = (n-1) + (n-2)
+이런 규칙
+
+개복잡함 - 그래서 이걸 메모제이션 으로 바꾸자
+
+메모제이션 
+- 내가 한번 구했던(연산했던) 내용을 어딘가에 넣어놓는것 - 나중에 또 쓴다
+- 다시 계산하지 않는다
+
+
+--------------------------------
+webpack5
+만들때 index.html 에서
+꼭 
+<script type="text/javascript" src="./dist/app.js"></script>
+이렇게 type 을 지정해줘야 오류가 나지 않는다.
