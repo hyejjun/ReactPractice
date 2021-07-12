@@ -1,5 +1,5 @@
 import React from 'react';
-import Memo from './memo/memo'
+import Memo from './memo/memo_prac'
 
 const App = () => {
     return (
