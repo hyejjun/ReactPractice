@@ -77,3 +77,45 @@ webpack5
 꼭 
 <script type="text/javascript" src="./dist/app.js"></script>
 이렇게 type 을 지정해줘야 오류가 나지 않는다.
+
+
+* component/memo/Memo.jsx 만들고 App.jsx에 연결시키자
+
+jsx 영역에서 배열에 담고 있고 배열에 담고 잇는걸 던져주기만 하면 되는거
+const renderList = () =>{
+        let newArr = []
+        for (let i=0; i<list.length; i++){
+        //list[i]     //asdfas -> <li>afsdfa</li>
+        newArr.push(
+        <li>{list[i]}</li>
+        )
+    }
+return newArr
+}
+
+    <ol>
+        {
+            renderList()
+        }
+    </ol>
+
+useMemo 
+결과값을 어딘가에 저장해서 불러오는 형태 - 그렇다는 것은 메모리를 사용한다는 뜻이다
+
+const userCount = useMemo (()=>{
+        return list.length
+},[list.length])
+인자값이 두개고
+사용할때는 <h2>회원리스트 ({userCount})</h2>
+이렇게 뒤에 괄호 붙여서 실행하면 오류난다. 함수가 아니라는 오류남
+
+
+useMemo and useCallback
+똑같은 거임 근데 뭐가 다를까?
+useMemo : 변수를 메모리이에이션 사용할때
+useCallback : 함수를 메모리이에이션 사용할때
+
+
+
+함수형 컴포넌트는 렌더 될때마다 안에 함수를 재생성한다.
+그래서 최초에 한번 실행됐을때 그거를 생성해놓고 갖다 쓰는 방식을 하려고 useCallback을 쓴다
