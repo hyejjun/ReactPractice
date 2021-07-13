@@ -1,0 +1,85 @@
+useReducer
+상태관리 useState랑 비슷하다
+상태를 변경하는 로직을 다른 곳에서 처리할 수 있다.
+상태관리 할때 객체를 사용할 수 있어서 편리하다.
+
+Context
+Props 하위 컴포넌트에 보내는것이 까다로웠는데 이거를 편리하게 해준다
+
+
+webpack5/component/counter
+폴더 생성
+
+
+* useReducer
+const [number, dispatch] = React.useReducer(reducer,0)
+구조 : 함수
+number 라는 값을 바꾸기 위해서 dispatch를 써야한다
+
+reducer를 쓸때는 컴포넌트 밖에다 놓자
+
+dispatch는 setState 쓰듯이 쓰면 된다
+dispatch({})
+
+
+dispatch가 실행되면 reducer가 실행되고 type 과 같은 인자값이 reducer 안으로 들어가게 된다
+reducer는 총 두개의 인자값을 받아준다
+number : 상태값을 첫번째 인자값으로 받고 안에 있는 객체값을 action이라는 걸로 받는다
+
+reducer에서 return을 쓰는 이유는?
+여기서는 변하는 값만 반환해줘야 하기 때문
+
+/component/counter/reducer.js
+다른 파일에 reducer 를 만들고
+export 앞에다 붙여주고
+가져올곳에서는 import { reducer } from './reducer'
+이렇게 해주면 쓸 수 있다
+
+
+Redux랑 비슷한 기능을 한다 - reducer
+
+그래서 Context 와 reducer를 사용하면 어느정도 Redux 를 사용한 효과를 낼 수 있지만
+비동기 처리를 위해서는 Redux를 사용하는 것이 좋다.
+
+
+export default 함수
+함수 하나만 보내는거 
+각각 보내려면 const 앞에다가 export 붙여주면 됨
+그리고 받아올때는 대괄호 { } 를 써서 받아주면된다.
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++
+/component/context/Layout.jsx
+만들자
+
+
+childern사용해보자
+
+craeteContext 사용하면 이걸 사용하려면 useContext 사용하면됨
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++
+ttt game hooks 구현 - reducer
+
+
+---------------------------------------------
+
+* styled component
+npm install styled-components
+
+component/styledComponent 
+폴더 만들기
+
+index.jsx
+Index 컴포넌트 만들고
+App 에 연결
+
+사용하는 곳에서  [index.jsx]
+import styled from 'styled-components'
+
+
+
+
+
