@@ -3,6 +3,7 @@ import Memo from './memo/memo'
 import Counter from './counter/Counter';
 import Layout from './context/Layout';
 import Index from './styledComponent';
+import Game from './game/Game';
 
 const App = () => {
     return (
@@ -10,7 +11,8 @@ const App = () => {
             {/* <Memo /> */}
             {/* <Counter /> */}
             {/* <Layout /> */}
-            <Index />
+            {/* <Index /> */}
+            <Game />
         </>
     )
 }
