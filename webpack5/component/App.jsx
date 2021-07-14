@@ -4,6 +4,7 @@ import Counter from './counter/Counter';
 import Layout from './context/Layout';
 import Index from './styledComponent';
 import Game from './game/Game';
+import Comment from './comment/Comment';
 
 const App = () => {
     return (
@@ -12,7 +13,8 @@ const App = () => {
             {/* <Counter /> */}
             {/* <Layout /> */}
             {/* <Index /> */}
-            <Game />
+            {/* <Game /> */}
+            <Comment/>
         </>
     )
 }
