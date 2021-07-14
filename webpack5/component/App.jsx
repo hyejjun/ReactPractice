@@ -4,8 +4,8 @@ import Counter from './counter/Counter';
 import Layout from './context/Layout';
 import Index from './styledComponent';
 import Game from './game/Game';
-import Comment from './comment/Comment';
-
+// import Comment from './comment/Comment';
+import Comment from './comment_practice/Comment';
 const App = () => {
     return (
         <>

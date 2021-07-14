@@ -81,3 +81,11 @@ const list = state.commentItem
 댓글 부분 다시 해보기 + 뒷 부분 try 해보기
 
 * Context 랑 reducer 확실히 이해하자!!!
+
+
++++++++++++++++++++++++++
+
+자주 나는 에러
+react__WEBPACK_IMPORTED_MODULE_0__.render is not a function
+
+import ReactDOM from 'react' 이 부분을 확인해보면 import 를 잘못해온걸 확인 할 수 있다. react-dom 으로 바꿔주자
