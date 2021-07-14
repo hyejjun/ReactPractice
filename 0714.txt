@@ -4,3 +4,80 @@ Context 는 데이터 읽기만 가능하다 - 변경이 불가능
 Reducer 를 사용
 
 컴포넌트 바깥에다가 상태를 선언할 수 있다.
+
+
++++++++++++++++++++++
+
+둘은 상태를 변하게 하는 방법이 다르다.
+
+* Usestate
+상태값을 바꾸는 목적 - Re render 가 목적이다
+즉 컴포넌트를 다시 실행한다는 뜻이다.
+
+바꿀 때 :
+setUsername('바꾼다!')
+
+
+* useReducer : dispatch
+Re render 발생
+
+바꿀 때 :
+dispatch ({ type : '이벤트명 or key값'})
+무조건 type을 속성값으로 받는다. (대부분 그렇다는 얘기)
+예)
+dispatch ({ type : 'UPDATE', payload:'바꾼다!!' })
+
+Reducer = (state,action)=>{
+
+}
+
+dispatch 호출하는 순간
+Reducer 함수로 들어가게 된다.
+
+그러면 이 객체 값이  type : 'UPDATE', payload:'바꾼다!!' action 값으로 들어오게 된다.
+Reducer 함수 안으로 들어온다
+
+여기서 state 는 변수
+
+Reducer = (state, action) => {
+    여기 안에서 switch문을 통해서 type 별로 상황을 정해준다.
+    switch(action.type){
+        case 'UPDATE' :
+        return {
+            ...state,       // 이거를 리턴하는 이유? - 불변성의 법칙 때문에 얕은 복사를 하게 된다 -  바꿔서 false를 줘서 렌더를 해줘야하니까!
+            username : '나 바꾼당'  // 내용을 그대로 넣은거에서 username을 바꾼것이다.
+            Reducer 는 이 return 값에 의해서 상태가 변하게 된다.
+        }
+    }
+}
+
+
+컴포넌트에는 데이터를 관리하는걸 넣지 않는다.
+Context 에서 데이터 관리하고 컴포넌트는 화면만!
+
+Reducer 는 상태가 변할 때 처리하는 로직
+
++++++++++++++++++++++++++++++++++++++++++
+webpack5/comment/Store
+
+context.jsx 에서 상태값 선언 - Comment 에 담고
+reducer.jsx 에서 상태별 case 나눠줌
+CommentLayout.jsx 에서 Comment에 담긴 상태값을 불러와서 사용할 수 있도록 함 - 그럼 자식 컴포넌트도 사용가능함
+
+CommentForm.jsx
+읽을 때는 무조건 useContext 사용해야하고
+Store/context.jsx 도 가져와야함 - import Store from './Store/context'
+
+상태값 바꿀때
+dispatch({ type: 'CREATE', payload: { userid: 'web7722', content: input, date: '2021-07-14' } })
+payload 가 새로운 값이 되는거임
+
+화면에 뿌려주기
+[CommentList.jsx]
+list 라는 변수를 Context 에서 가져와야함
+const {state} = useContext(Store)       //{state,dispatch}
+const list = state.commentItem
+
+댓글 부분 다시 해보기 + 뒷 부분 try 해보기
+
+* Context 랑 reducer 확실히 이해하자!!!
