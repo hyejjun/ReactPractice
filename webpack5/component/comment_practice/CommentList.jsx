@@ -10,7 +10,7 @@ const CommentList = () => {
         let list_c = [...list]
         console.log(list_c);
     }
-
+    // 여기서 delte sp네 넴
     const onDelete = (data) => {
         let newList = list.filter((value, index) => {
             return data !== index
@@ -43,7 +43,7 @@ const CommentList = () => {
                 date={v.date}
                 onDelete={onDelete}
                 onUpdate={onUpdate}
-                k={k}
+                k={k}   // 따로 보냈습니다
                 inputBox ={inputBox}
             />
         )

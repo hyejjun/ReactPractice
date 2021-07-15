@@ -13,6 +13,7 @@ const CommentList = () => {
 
     const {state} = useContext(Store)       //{state,dispatch}
     const list = state.commentItem
+    const {loading,commentItem,error} = state
 
     const Item = list.map((v,k)=>{
         return(
@@ -21,9 +22,12 @@ const CommentList = () => {
                 userid = {v.userid}
                 content = {v.content}
                 date = {v.date}
+                index = {k}
             />
         )
     })
+    if(loading) return <li>로딩중</li>;
+    if(error) return <li>에러났음</li>;
     return (
         <li>
             {Item}

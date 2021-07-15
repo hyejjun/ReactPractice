@@ -1,0 +1,189 @@
+useContext 를 써야 Context 를 사용할 수 있다는것!
+Context 에 넣었다고 해서 그냥 자동으로 쓸 수 있다는것은 아니다.
+
+createContext 를 쓰면 그건 하나의 컴포넌트가 생겼다고 봐야한다.
+
+Context는 저장소같은 곳인데 그냥 최상위에 두고 나머지 하위 컴포들이 요청해서 쓰는것
+Context 랑 Reducer 랑 같이 사용하고 - 그러면 이게 Redux 랑 똑같은 형태
+
+
+reducer.jsx 에서 type 이름도 상세하게 INSERT -> COMMENT_INSERT
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++
+[댓글 삭제]
+ case "DELETE":
+            //console.log('index', action.payload);
+            //console.log(state.commentItem);
+            let newArr = [];
+            for (let i = 0; i < state.commentItem.length; i++) {
+                //console.log(i);
+                if(i !== action.payload) newArr.push(state.commentItem[i])
+            }
+            console.log(newArr, state.commentItem);
+            // newArr = 내가 원하는 값을 삭제하고 남은 배열값
+            // state.commentItem = 내가 기존에 가지고 있었던 배열값
+
+            return {
+                ...state, // 습관처럼 쓰기 - 렌더 발생시키기 위해서
+                commentItem : newArr
+            }
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[댓글삭제 - 다른 방법]
+commentItem : [...state.commentItem.filter((v,k)=>{action.payload !==k })]
+
+state.commentItem = 내가 기존에 가지고 있었던 배열값 
+여기서 filter 를 걸어서 action.payload 즉 index ={k} 값이랑 같지 않은것만 리턴한다.
+그거를 commentItem 에 넣는다는 것임.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[댓글 수정]
+case "UPDATE":
+            console.log(action);    // action.payload 에서 index랑 content값을 빼와야함
+            let { content, index } = action.payload
+            //let { content, index } = {...action.payload}  이렇게 쓰는거랑 같은 - 그냥 쓸줄만 알면됨
+            //let {payload : {content,index}} = action
+            let {commentItem} = {...state}
+            commentItem[index].content = content
+            return {
+                ...state,
+                commentItem : [...commentItem]
+            }
+
+
+commentItem : [...commentItem]
+앞에 있는 애랑 뒤에 있는애랑 이름만 같고 값이 다르다는 것
+
+++++++++++++++++++++++++++++++++++++++++
+React
+todo list 를 개인적으로 만들어 보는것을 추천한다!
+- 강의가 진짜 많음
+- 어려워 보이는 to do list 를 한번 만들어보는것을 추천한다
+그래도 리액트라 그런지 코드가 비슷
+
+
+--------------------------
+
+리액트와 node js 서버를 같이 쓰는거를 세팅해보자
+
+
+------------------------------
+
+CRUD 배워서 게시판 만들고 회원가입 만들고
+로그인 배우고 로그인에 따라서 화면 구성이 달라지는거
+
+리액트로 회원가입 로그인 배우고 라우터 기능만 상세하게 하면 리액트로 사이트 구현 가능함
+
+리액트는 한번 만드는게 어렵지 두 번 만드는건 쉽다
+
+다음주 까지는 리액트 로그인 + 리덕스
+-----------------------------------------
+[0715 오늘 목표]
+
+----------------------------------------
+
+run dev 하면
+index.html 을 띄워줌
+
+--------------------------
+node js 해서 백엔드 서버 만들기
+서버 두개 킨다음에
+npm init
+npm install express
+npm install cors
+
+백엔드 서버 실행 node server    - localhost:3000
+그리고 프론트로와서 npm run dev 하기 -localhost:8080
+
+
+CommentLayout 와서
+최초에 컴포넌트 실행될대 요청해서 결과를 얻고 싶다
+그때 최초에 렌더가 되었을때 최초렌더라는 글자를 띄워보자
+
+ComponentDidMount 의 기능
+React.useEffect()
+
+useEffect(()=>{
+        console.log('최초실행');
+    },[]) 
+
+context.jsx
+안에 있던 값 지우고 받아온 json값으로 넣어보는 작업을 할거임
+dispatch({type :'INIT', payload : data})
+
+
+
+
+객체 보낼때
+app.get('/api',(req,res)=>{
+    res.json({
+        userid : 'web7722',
+        content : '안녕하세요',
+        date : '2021-07-07'
+    })
+})
+
+commentItem : [action.payload]      // json 객체값을 배열 안에 넣어서 commentItem [{ }] 과 같은 형태로 만들어줌
+
+
+
+
+
+
+
+
+
+백에서 애초에 여러 객체값을 보낸다하면
+res.json(
+    [
+        { userid : 'web7722',content : '안녕하세요', date : '2021-07-07'},
+        { userid : 'web7722',content : '안녕하세요', date : '2021-07-07'},
+        { userid : 'web7722',content : '안녕하세요', date : '2021-07-07'},
+    ])
+배열 안에 넣어서 보내면 됨
+
+프론트
+reducer.jsx
+
+case "INIT" :
+            return{
+                ...state,
+                commentItem : [action.payload]      // json 객체값을 배열 안에 넣어서 commentItem [{ }] 과 같은 형태로 만들어줌
+            }
+그러면 commentItem : [action.payload] 이렇게 안하고 commentItem : action.payload 이렇게 받을 수 있음
+
+
+사실 이런 데이터는 실제로 DB에서 오는거기때문에 받아서 Table select 해서 객체로 만들어서 응답을 주면 된다
+insert, upadate, delete
+
+
+-------------------------------------------
+
+ useEffect(async ()=>{
+        //console.log('최초실행');
+        const response = await fetch('http://localhost:3000/api')   // response는 성공 실패의 결과값만 주므로 data라는 걸로 json값을 받아와야한다
+        const data = await response.json()
+        console.log(data);
+        dispatch({type :'INIT', payload : data})
+    },[])     
+그런데 이렇게 직접적으로 쓸 수는 없어서 리팩토링을 해야한다.
+
+
+------------------------
+[비동기 통신에 대한 리펙토링]
+1. fetch 이해 
+2. context 랑 dispatch 를 확실히 이해
+
+
+-------------------------------------
+comment/api/api.jsx 에 데이터 통신하는 코드를 따로 빼줘야한다. - 비동기 통신에 대한 내용을 넣는 공간
+
+
+CommentList 에 와서 
+ const {loading,commentItem,error} = state
+ if(loading) return <li>로딩중</li>;
+if(error) return <li>에러났음</li>
+
+
+* 그리고 주의할것  백단 server 는 코드 바뀌면 항상 서버 리스타트해야함!!!! - 이것때문에 오류 남

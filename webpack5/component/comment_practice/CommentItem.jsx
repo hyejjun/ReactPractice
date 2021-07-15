@@ -25,5 +25,5 @@ const CommentItem = ({ userid, content, date, onDelete, k, onUpdate, inputBox}) 
         </>
     )
 }
-
+// k랑 key값 비교하는거를 못했어요 수정 부분에서 어떤 화면요?
 export default CommentItem
